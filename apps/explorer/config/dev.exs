@@ -1,7 +1,14 @@
 import Config
 
 # Configure your database
-config :explorer, Explorer.Repo, timeout: :timer.seconds(80)
+config :explorer, Explorer.Repo,
+  database: "explorer_dev",
+  hostname: "localhost",
+  pool: Ecto.Adapters.SQL.Sandbox,
+  # Default of `5_000` was too low for `BlockFetcher` test
+  ownership_timeout: :timer.minutes(7),
+  timeout: :timer.seconds(60),
+  queue_target: 1000
 
 # Configure API database
 config :explorer, Explorer.Repo.Replica1, timeout: :timer.seconds(80)
